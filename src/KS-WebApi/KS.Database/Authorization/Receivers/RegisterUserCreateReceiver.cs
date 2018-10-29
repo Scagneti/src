@@ -1,6 +1,7 @@
 ﻿using KS.Business.DataContract.Authorization;
 using KS.Database.Contexts;
 using KS.Database.DataContract.Authorization;
+using KS.Database.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,16 +17,29 @@ namespace KS.Database.Authorization.Receivers
 		{
 			_context = context;
 		}
-		public Task<bool> RegisterUser(NewUserCreateDTO userDTO)
+		public async Task<bool> RegisterUser(NewUserCreateDTO userDTO)
 		{
-			//Map DTO to RAO
 			UserRegisterRAO userRAO = MapRegisterDTOtoRegisterRAO(userDTO);
-			//Create GUID in RAO
-			//Map the RAO to Entity
-			//Create a User
-			//SaveChanges() == 1
+			UserEntity userEntity = MapRegisterRAOtoUserEntity(userRAO);
+			return await CreateUser(userEntity);
+		}
 
-			throw new NotImplementedException();
+		private async Task<bool> CreateUser(UserEntity userEntity)
+		{
+			await _context.UserTableAccess.AddAsync(userEntity);
+			return await _context.SaveChangesAsync() == 1;
+		}
+
+		private UserEntity MapRegisterRAOtoUserEntity(UserRegisterRAO userRAO)
+		{
+			var entity = new UserEntity
+			{
+				OwnerId = userRAO.OwnerId,
+				PasswordHash = userRAO.PasswordHash,
+				PasswordSalt = userRAO.PasswordSalt,
+				UserName = userRAO.UserName,
+			};
+			return entity;
 		}
 
 		private UserRegisterRAO MapRegisterDTOtoRegisterRAO(NewUserCreateDTO userDTO)

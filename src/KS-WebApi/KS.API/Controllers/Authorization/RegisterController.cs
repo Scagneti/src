@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KS.API.DataContract.Authorization;
+using KS.Business.DataContract.Authorization;
 using KS.Business.Managers.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,16 @@ namespace KS.API.Controllers.Authorization
 	[ApiController]
 	public class RegisterController : Controller
 	{
+		private readonly IRegisterUserManager _registerUserManager;
+		public RegisterController(RegisterUserManager registerUserManager)
+		{
+			_registerUserManager = registerUserManager;
+		}
 		[HttpPost("RegisterUser")]
 		public async Task<IActionResult> Register([FromBody] NewUserCreateRequest userForRegister)
 		{
 			userForRegister.UserName = userForRegister.UserName.ToLower();
-			var registerManager = new RegisterUserManager();
-			await registerManager.RegisterUser(userForRegister);
+			await _registerUserManager.RegisterUser(userForRegister);
 			return StatusCode(201);
 		}
 	}

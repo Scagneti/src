@@ -16,9 +16,9 @@ namespace KS.Database.Authorization.Invokers
 			_command = command;
 		}
 
-		public Task<bool> InvokeRegisterUserCommand(NewUserCreateDTO userDTO)
+		public async Task<bool> InvokeRegisterUserCommand(NewUserCreateDTO userDTO)
 		{
-			return _command.Execute(userDTO);
+			return await _command.Execute(userDTO);
 		}
 	}
 }
