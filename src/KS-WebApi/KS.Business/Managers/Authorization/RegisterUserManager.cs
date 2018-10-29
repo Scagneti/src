@@ -1,6 +1,7 @@
 ﻿using KS.API.DataContract.Authorization;
 using KS.Business.DataContract.Authorization;
 using KS.Business.Engines.Authorization;
+using KS.Database.Authorization.Invokers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,16 +11,23 @@ namespace KS.Business.Managers.Authorization
 {
 	public class RegisterUserManager : IRegisterUserManager
 	{
+
 		public Task<NewUserCreateDTO> RegisterUser(NewUserCreateRequest userRequest)
 		{
+			NewUserCreateDTO dto = PrepareUserDTOForRegister(userRequest);
 
+			var _userRegisterInvoker = new RegisterUserCreateInvoker();
+
+			_userRegisterInvoker.InvokeRegisterUserCommand(dto);
+
+			throw new Exception();
 			//--Create new instance of Engine
 			//--Store username in variable
 			//--pass userrequest variable into password hash method
 			//--Call CreatePasswordHash method
 			//--Prepare the DTO object for the next layer
-			//--Istantiate the class for the database
-			//--Call the invoker method in the DAL
+			//--Instantiate the class for the database
+			//--Call the invoker method to access the DAL
 		}
 		private NewUserCreateDTO PrepareUserDTOForRegister(NewUserCreateRequest userRequest)
 		{
@@ -44,7 +52,6 @@ namespace KS.Business.Managers.Authorization
 			};
 			return userDTO;
 		}
-
 
 	}
 }
