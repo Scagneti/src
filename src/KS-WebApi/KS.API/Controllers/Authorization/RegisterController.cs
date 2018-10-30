@@ -16,7 +16,7 @@ namespace KS.API.Controllers.Authorization
 	public class RegisterController : Controller
 	{
 		private readonly IRegisterUserManager _registerUserManager;
-		public RegisterController(RegisterUserManager registerUserManager)
+		public RegisterController(IRegisterUserManager registerUserManager)
 		{
 			_registerUserManager = registerUserManager;
 		}
