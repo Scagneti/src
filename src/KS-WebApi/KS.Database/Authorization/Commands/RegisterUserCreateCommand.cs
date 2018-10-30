@@ -15,9 +15,9 @@ namespace KS.Database.Authorization.Commands
 		{
 			_receiver = receiver;
 		}
-		public async Task<bool> Execute(NewUserCreateDTO userDTO)
+		public async Task<bool> Execute(UserRegisterRAO userRAO)
 		{
-			return await _receiver.RegisterUser(userDTO);
+			return await _receiver.RegisterUser(userRAO);
 		}
 	}
 }

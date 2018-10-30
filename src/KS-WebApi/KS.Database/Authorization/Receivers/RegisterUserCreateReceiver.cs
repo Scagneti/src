@@ -1,4 +1,5 @@
-﻿using KS.Business.DataContract.Authorization;
+﻿using AutoMapper;
+using KS.Business.DataContract.Authorization;
 using KS.Database.Contexts;
 using KS.Database.DataContract.Authorization;
 using KS.Database.Entities;
@@ -12,15 +13,17 @@ namespace KS.Database.Authorization.Receivers
 	public class RegisterUserCreateReceiver : IAuthorizationReceiver
 	{
 		private readonly KSContext _context;
+		private readonly IMapper _mapper;
 
-		public RegisterUserCreateReceiver(KSContext context)
+		public RegisterUserCreateReceiver(KSContext context, IMapper mapper)
 		{
 			_context = context;
+			_mapper = mapper;
 		}
-		public async Task<bool> RegisterUser(NewUserCreateDTO userDTO)
+		public async Task<bool> RegisterUser(UserRegisterRAO userRAO)
 		{
-			UserRegisterRAO userRAO = MapRegisterDTOtoRegisterRAO(userDTO);
-			UserEntity userEntity = MapRegisterRAOtoUserEntity(userRAO);
+			var userEntity = _mapper.Map<UserEntity>(userRAO);
+			userEntity.OwnerId = Guid.NewGuid();
 			return await CreateUser(userEntity);
 		}
 
@@ -28,30 +31,6 @@ namespace KS.Database.Authorization.Receivers
 		{
 			await _context.UserTableAccess.AddAsync(userEntity);
 			return await _context.SaveChangesAsync() == 1;
-		}
-
-		private UserEntity MapRegisterRAOtoUserEntity(UserRegisterRAO userRAO)
-		{
-			var entity = new UserEntity
-			{
-				OwnerId = userRAO.OwnerId,
-				PasswordHash = userRAO.PasswordHash,
-				PasswordSalt = userRAO.PasswordSalt,
-				UserName = userRAO.UserName,
-			};
-			return entity;
-		}
-
-		private UserRegisterRAO MapRegisterDTOtoRegisterRAO(NewUserCreateDTO userDTO)
-		{
-			var userRAO = new UserRegisterRAO
-			{
-				OwnerId = Guid.NewGuid(),
-				UserName = userDTO.UserName,
-				PasswordHash = userDTO.PasswordHash,
-				PasswordSalt = userDTO.PasswordSalt
-			};
-			return userRAO;
 		}
 	}
 }
