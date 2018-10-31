@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using KS.Business.DataContract.Authorization;
+using KS.Business.Engines.Authorization;
 using KS.Database.DataContract.Authorization;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace KS.Business.Managers.Authorization
 {
-	public class UserLoginManager
+	public class UserLoginManager : IUserLoginManager
 	{
 		private readonly IUserLoginInvoker _userLoginInvoker;
 		private readonly IMapper _mapper;
@@ -26,7 +27,15 @@ namespace KS.Business.Managers.Authorization
 
 		private UserLoginRAO PrepareUserRAOForLogin(ExistingUserDTO userDTO)
 		{
-			throw new NotImplementedException();
+
+			var rao = _mapper.Map<UserLoginRAO>(userDTO);
+
+			var verifyEngine = new VerifyPasswordEngine();
+			var result = verifyEngine.VerifyPasswordHash(userDTO.Password, rao.PasswordHash, rao.PasswordSalt);
+
+			if (result == true)
+				return rao;
+			throw new Exception();
 		}
 	}
 }

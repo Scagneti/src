@@ -48,6 +48,10 @@ namespace KS.API
 			services.AddScoped<IAuthorizationCommand, RegisterUserCreateCommand>();
 			services.AddScoped<IUserRegisterInvoker, RegisterUserCreateInvoker>();
 			services.AddScoped<IAuthorizationReceiver, RegisterUserCreateReceiver>();
+			services.AddScoped<IUserLoginManager, UserLoginManager>();
+			services.AddScoped<IUserLoginCommand, ExistingUserCommand>();
+			services.AddScoped<IUserLoginInvoker, ExistingUserInvoker>();
+			services.AddScoped<IUserLoginReceiver, ExistingUserReceiver>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
