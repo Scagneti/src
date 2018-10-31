@@ -7,6 +7,7 @@ using KS.API.DataContract.Authorization;
 using KS.Business.DataContract.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace KS.API.Controllers.Authorization
 {
@@ -28,6 +29,7 @@ namespace KS.API.Controllers.Authorization
 			userForLogin.Username = userForLogin.Username.ToLower();
 			var dto = _mapper.Map<QueryForExistingUserDTO>(userForLogin);
 			await _userLoginManager.UserLogin(dto);
+
 			return StatusCode(200);
 		}
     }
