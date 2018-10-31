@@ -19,23 +19,19 @@ namespace KS.Business.Managers.Authorization
 			_userLoginInvoker = userLoginInvoker;
 			_mapper = mapper;
 		}
-		public async Task<bool> UserLogin(ExistingUserDTO userDTO)
+		public async Task<ExistingUserDTO> UserLogin(QueryForExistingUserDTO userDTO)
 		{
-			var rao = PrepareUserRAOForLogin(userDTO);
-			return await _userLoginInvoker.InvokeLoginUserCommand(rao);
-		}
+			var rao = _mapper.Map<QueryForExistingUserRAO>(userDTO);
 
-		private UserLoginRAO PrepareUserRAOForLogin(ExistingUserDTO userDTO)
-		{
-
-			var rao = _mapper.Map<UserLoginRAO>(userDTO);
+			var received = await _userLoginInvoker.InvokeLoginUserCommand(rao);
 
 			var verifyEngine = new VerifyPasswordEngine();
-			var result = verifyEngine.VerifyPasswordHash(userDTO.Password, rao.PasswordHash, rao.PasswordSalt);
+			var match = verifyEngine.VerifyPasswordHash(userDTO.Password, received.PasswordHash, received.PasswordSalt);
 
-			if (result == true)
-				return rao;
-			throw new Exception();
+			if (match)
+				return _mapper.Map<ExistingUserDTO>(received);
+			else
+				throw new Exception("The password you used is incorrect.");
 		}
 	}
 }

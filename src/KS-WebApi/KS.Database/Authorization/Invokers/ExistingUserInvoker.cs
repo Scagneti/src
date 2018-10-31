@@ -1,4 +1,5 @@
-﻿using KS.Database.DataContract.Authorization;
+﻿using KS.Business.DataContract.Authorization;
+using KS.Database.DataContract.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,7 +16,7 @@ namespace KS.Database.Authorization.Invokers
 			_command = command;
 		}
 
-		public async Task<bool> InvokeLoginUserCommand(UserLoginRAO userRAO)
+		public async Task<ExistingUserDTO> InvokeLoginUserCommand(QueryForExistingUserRAO userRAO)
 		{
 			return await _command.Execute(userRAO);
 		}

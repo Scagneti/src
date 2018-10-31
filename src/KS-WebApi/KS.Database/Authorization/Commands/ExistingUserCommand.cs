@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KS.Business.DataContract.Authorization;
 using KS.Database.DataContract.Authorization;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace KS.Database.Authorization.Commands
 			_mapper = mapper;
 		}
 
-		public async Task<bool> Execute(UserLoginRAO userRAO)
+		public async Task<ExistingUserDTO> Execute(QueryForExistingUserRAO userRAO)
 		{
 			return await _userLoginReceiver.UserLogin(userRAO);
 		}

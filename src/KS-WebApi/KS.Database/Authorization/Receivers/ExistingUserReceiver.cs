@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using KS.Business.DataContract.Authorization;
 using KS.Database.Contexts;
 using KS.Database.DataContract.Authorization;
 using KS.Database.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,17 +21,12 @@ namespace KS.Database.Authorization.Receivers
 			_context = context;
 			_mapper = mapper;
 		}
-		public async Task<bool> GetUserByUsername(UserLoginRAO userRAO)
+		public async Task<ExistingUserDTO> UserLogin(QueryForExistingUserRAO userRAO)
 		{
-			var userEntity = _mapper.Map<UserEntity>(userRAO);
-			//userEntity.OwnerId = userRAO.
-			//userEntity.UserName =
-			return true;
-		}
+			var entity = await _context.UserTableAccess.FirstOrDefaultAsync(x => x.UserName == userRAO.UserName);
+			var login = _mapper.Map<ExistingUserDTO>(entity);
 
-		public Task<bool> UserLogin(UserLoginRAO userRAO)
-		{
-			throw new NotImplementedException();
+			return login;
 		}
 	}
 }
