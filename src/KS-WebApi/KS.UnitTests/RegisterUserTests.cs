@@ -6,9 +6,11 @@ using KS.Business.DataContract.Authorization;
 using KS.Business.Managers.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2.HPack;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
 using System.Threading.Tasks;
+using StatusCodes = Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace KS.UnitTests
 {
@@ -32,13 +34,21 @@ namespace KS.UnitTests
 			_mockController = new RegisterController(_mockManager, mapper);
 		}
 		[TestMethod]
-		public void RegisterManager_Registering_returns_correct_value()
+		public void RegisterManager_Registering_increases_call_count()
 		{
 			var request = new NewUserCreateRequest { UserName = "testName", Password = "testPassword" };
 			var result = _mockController.Register(request);
 
-			Assert.AreEqual(1, _mockManager.CallCount);
-			Assert.IsInstanceOfType(result, typeof(Task<IActionResult>));
+			Assert.AreEqual(1, _mockManager.CallCount);		
+		}
+		[TestMethod]
+		public void RegisterManager_Registering_returns_call_count()
+		{
+			var request = new NewUserCreateRequest { UserName = "testName", Password = "testPassword" };
+			var result = (StatusCodeResult)_mockController.Register(request).Result;
+			var expected = 201;
+
+			Assert.AreEqual(result.StatusCode, expected);
 		}
 	}
 }
