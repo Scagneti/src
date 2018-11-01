@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.API", "KS.API\KS.API.csproj", "{37F37EB0-1E39-45FC-B74D-7B19AA74D3C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.API", "KS.API\KS.API.csproj", "{37F37EB0-1E39-45FC-B74D-7B19AA74D3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.API.DataContract", "KS.API.DataContract\KS.API.DataContract.csproj", "{C612CC4C-6A7B-49AE-85B1-2E5345B4A1D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.API.DataContract", "KS.API.DataContract\KS.API.DataContract.csproj", "{C612CC4C-6A7B-49AE-85B1-2E5345B4A1D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Business", "KS.Business\KS.Business.csproj", "{C6D721F6-9258-47C0-89EA-5376D6E9572F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Business", "KS.Business\KS.Business.csproj", "{C6D721F6-9258-47C0-89EA-5376D6E9572F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Business.DataContract", "KS.Business.DataContract\KS.Business.DataContract.csproj", "{324D0B38-9C0F-4751-830A-02E3AE0C0F1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Business.DataContract", "KS.Business.DataContract\KS.Business.DataContract.csproj", "{324D0B38-9C0F-4751-830A-02E3AE0C0F1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Database", "KS.Database\KS.Database.csproj", "{F6330FE1-D0B4-4BCF-80A0-B2EDBB2D32DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Database", "KS.Database\KS.Database.csproj", "{F6330FE1-D0B4-4BCF-80A0-B2EDBB2D32DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.Database.DataContract", "KS.Database.DataContract\KS.Database.DataContract.csproj", "{F2600869-FA89-420D-A66B-D341777EA3EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KS.Database.DataContract", "KS.Database.DataContract\KS.Database.DataContract.csproj", "{F2600869-FA89-420D-A66B-D341777EA3EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KS.UnitTests", "KS.UnitTests\KS.UnitTests.csproj", "{1F95EE41-234D-4E0C-9D0B-5CE60A9017AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{F2600869-FA89-420D-A66B-D341777EA3EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2600869-FA89-420D-A66B-D341777EA3EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2600869-FA89-420D-A66B-D341777EA3EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F95EE41-234D-4E0C-9D0B-5CE60A9017AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F95EE41-234D-4E0C-9D0B-5CE60A9017AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F95EE41-234D-4E0C-9D0B-5CE60A9017AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F95EE41-234D-4E0C-9D0B-5CE60A9017AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

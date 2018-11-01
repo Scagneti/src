@@ -20,7 +20,7 @@ namespace KS.Business.Engines.Authorization
 		public string GenerateTokenString(ExistingUserDTO existingUser)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.ASCII.GetBytes(_config.GetSection("AppSettings: Token").Value);
+			var key = Encoding.ASCII.GetBytes(_config.GetSection("AppSettings:Token").Value);
 
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
@@ -28,9 +28,15 @@ namespace KS.Business.Engines.Authorization
 				{
 					new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
 					new Claim(ClaimTypes.Name, existingUser.Username)
-				})
-				Expires = DateTime.Now.AddDays(1);
+				}),
+				Expires = DateTime.Now.AddDays(1),
+				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+				SecurityAlgorithms.HmacSha512Signature)
 			};
+			var token = tokenHandler.CreateToken(tokenDescriptor);
+			var tokenString = tokenHandler.WriteToken(token);
+
+			return tokenString;
 		}
 	}
 }

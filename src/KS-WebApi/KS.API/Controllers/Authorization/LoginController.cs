@@ -23,14 +23,19 @@ namespace KS.API.Controllers.Authorization
 			_userLoginManager = userLoginManager;
 			_mapper = mapper;
 		}
+
 		[HttpPost ("UserLogin")]
 		public async Task<IActionResult> Login([FromBody] UserLoginRequest userForLogin)
 		{
 			userForLogin.Username = userForLogin.Username.ToLower();
 			var dto = _mapper.Map<QueryForExistingUserDTO>(userForLogin);
-			await _userLoginManager.UserLogin(dto);
+			var existingUser = await _userLoginManager.UserLogin(dto);
 
-			return StatusCode(200);
+			string tokenString = _userLoginManager.GenerateTokenForUser(existingUser);
+
+			//return StatusCode(200);
+
+			return Ok(new { tokenString, existingUser });
 		}
     }
 }

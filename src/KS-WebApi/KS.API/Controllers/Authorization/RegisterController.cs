@@ -25,6 +25,10 @@ namespace KS.API.Controllers.Authorization
 			_registerUserManager = registerUserManager;
 			_mapper = mapper;
 		}
+		public RegisterController(IRegisterUserManager _mockManager)
+		{
+			_registerUserManager = _mockManager;
+		}
 		[HttpPost("RegisterUser")]
 		public async Task<IActionResult> Register([FromBody] NewUserCreateRequest userForRegister)
 		{

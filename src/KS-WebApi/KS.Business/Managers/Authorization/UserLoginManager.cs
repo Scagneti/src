@@ -2,6 +2,7 @@
 using KS.Business.DataContract.Authorization;
 using KS.Business.Engines.Authorization;
 using KS.Database.DataContract.Authorization;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,11 +14,13 @@ namespace KS.Business.Managers.Authorization
 	{
 		private readonly IUserLoginInvoker _userLoginInvoker;
 		private readonly IMapper _mapper;
+		private readonly IConfiguration _config;
 
-		public UserLoginManager(IUserLoginInvoker userLoginInvoker, IMapper mapper)
+		public UserLoginManager(IUserLoginInvoker userLoginInvoker, IMapper mapper, IConfiguration config)
 		{
 			_userLoginInvoker = userLoginInvoker;
 			_mapper = mapper;
+			_config = config;
 		}
 		public async Task<ExistingUserDTO> UserLogin(QueryForExistingUserDTO userDTO)
 		{
@@ -32,6 +35,12 @@ namespace KS.Business.Managers.Authorization
 				return _mapper.Map<ExistingUserDTO>(received);
 			else
 				throw new Exception("The password you used is incorrect.");
+		}
+		public string GenerateTokenForUser(ExistingUserDTO userDTO)
+		{
+			var tokenEngine = new GenerateTokenEngine(_config);
+			var tokenString = tokenEngine.GenerateTokenString(userDTO);
+			return tokenString;
 		}
 	}
 }
