@@ -25,17 +25,20 @@ namespace KS.API.Controllers.Authorization
 			_registerUserManager = registerUserManager;
 			_mapper = mapper;
 		}
-		public RegisterController(IRegisterUserManager _mockManager)
-		{
-			_registerUserManager = _mockManager;
-		}
+		//public RegisterController(IRegisterUserManager _mockManager)
+		//{
+		//	_registerUserManager = _mockManager;
+		//}
 		[HttpPost("RegisterUser")]
 		public async Task<IActionResult> Register([FromBody] NewUserCreateRequest userForRegister)
 		{
 			userForRegister.UserName = userForRegister.UserName.ToLower();
 			var dto = _mapper.Map<NewUserCreateDTO>(userForRegister);
-			await _registerUserManager.RegisterUser(dto);
-			return StatusCode(201);
+			var userCheck = await _registerUserManager.RegisterUser(dto);
+			if (userCheck)
+				return StatusCode(201);
+			else
+				return StatusCode(409, "It appears that username already exists.");
 		}
 	}
 }
